@@ -19,7 +19,8 @@ struct Artista{
 };
 
 
-void artista_Save(Artista &art, ofstream &file){
+void artista_Save(Artista &art, ofstream &file)
+{
     file.write(art.id, sizeof(art.id));
     file.write((char*)&art.followers, sizeof(art.followers));
     file.write(art.genres, sizeof(art.genres));
@@ -27,7 +28,8 @@ void artista_Save(Artista &art, ofstream &file){
     file.write((char*)&art.popularity, sizeof(art.popularity));
 }
 
-void artista_Read(Artista art,ifstream &file){
+void artista_Read(Artista &art,ifstream &file)
+{
     file.read(art.id, sizeof(art.id));
     file.read((char*)&art.followers, sizeof(art.followers));
     file.read(art.genres, sizeof(art.genres));
@@ -44,9 +46,14 @@ void imprime_Artista(Artista &art)
     cout << "Popularity: " << art.popularity << endl << endl;
 }
 
-bool verificaCaractere(string word){
+bool verificaCaractere(string word)
+{
     return word[word.size()-1] == ']' || word[word.size()-1] == '"';
 }
+
+
+// *********************************** MAIN ******************************************************
+
 
 int main()
 {
@@ -73,6 +80,7 @@ int main()
 
             getline(fileIn, tmp, ',');      
 
+
             while(!verificaCaractere(tmp))
             {
                 aux += tmp + ',';
@@ -80,11 +88,9 @@ int main()
             }
 
             aux += tmp;
-
-
             strcpy(art1.genres, aux.c_str());
-
             aux = "";
+
 
             getline(fileIn, tmp, ',');   
             strcpy(art1.name, tmp.c_str());
@@ -93,6 +99,8 @@ int main()
             art1.popularity = atoi(tmp.c_str());
 
             // imprime_Artista(art1);
+            imprime_Artista(art1);
+
             artista_Save(art1,binFileOut);
         }
         binFileOut.close();
@@ -107,19 +115,20 @@ int main()
     ifstream binFileIn;
     binFileIn.open("artistas.bin", ios::in | ios::binary);
 
-    if(binFileIn.is_open()){
+    if(binFileIn.is_open())
+    {
         Artista art;
+
+        cout << "Leitura de art depois do bin: " << endl;
         while(!binFileIn.eof()){
-            artista_Read(art,binFileIn);
-            //Para testes:
-            // cout << "Leitura de art depois do bin: " << endl;
-            // imprime_Artista(art);
+            artista_Read(art, binFileIn);
+            imprime_Artista(art);
             cout << endl;
         }
         binFileIn.close();
     }
-
-    else{
+    else
+    {
         cout << "Erro ao abrir arquivo bin in";
         exit(2);
     }
