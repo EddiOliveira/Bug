@@ -27,7 +27,7 @@ void artista_Save(Artista &art, ofstream &file){
     file.write((char*)&art.popularity, sizeof(art.popularity));
 }
 
-void artista_Read(Artista art,ifstream &file){
+void artista_Read(Artista &art,ifstream &file){
     file.read(art.id, sizeof(art.id));
     file.read((char*)&art.followers, sizeof(art.followers));
     file.read(art.genres, sizeof(art.genres));
@@ -112,8 +112,8 @@ int main()
         while(!binFileIn.eof()){
             artista_Read(art,binFileIn);
             //Para testes:
-            // cout << "Leitura de art depois do bin: " << endl;
-            // imprime_Artista(art);
+            cout << "Leitura de art depois do bin: " << endl;
+            imprime_Artista(art);
             cout << endl;
         }
         binFileIn.close();
