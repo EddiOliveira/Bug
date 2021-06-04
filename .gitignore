@@ -1,8 +1,5 @@
-teste.csv
-track.csv
-artistas.csv
-artistas.bin
-tracks.bin
+*.csv
+*.bin
 
 # Prerequisites
 *.d
