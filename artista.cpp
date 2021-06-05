@@ -10,7 +10,8 @@ using namespace std;
 #define MAX_POPULARITY 10
 
 
-struct Artista{
+struct Artista
+{
     char id[MAX_ID]; 
     float followers;
     char genres[MAX_GENRES];
@@ -68,7 +69,9 @@ int main()
     {
         string tmp;
         string aux = "";
-        fileIn.ignore(1000, '\n'); // pula, no máximo, 1000 caracteres até encontrar quebra de linha
+        fileIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
+
+        cout << "\n\nLeitura de art antes do bin: " << endl << endl;
 
         while(!fileIn.eof())
         {
@@ -86,7 +89,6 @@ int main()
                 aux += tmp + ',';
                 getline(fileIn, tmp, ',');   
             }
-
             aux += tmp;
             strcpy(art1.genres, aux.c_str());
             aux = "";
@@ -98,9 +100,8 @@ int main()
             getline(fileIn, tmp, '\n');
             art1.popularity = atoi(tmp.c_str());
 
-            // imprime_Artista(art1);
-            imprime_Artista(art1);
 
+            imprime_Artista(art1);
             artista_Save(art1,binFileOut);
         }
         binFileOut.close();
@@ -119,8 +120,11 @@ int main()
     {
         Artista art;
 
-        cout << "Leitura de art depois do bin: " << endl;
-        while(!binFileIn.eof()){
+        cout << "\n\nLeitura de art depois do bin: " << endl;
+        //while(!binFileIn.eof())
+        //usar while(!binFileIn.eof()) estava lendo o último dado 2x
+        while(binFileIn.peek()!=EOF)
+        {   
             artista_Read(art, binFileIn);
             imprime_Artista(art);
             cout << endl;
@@ -133,5 +137,5 @@ int main()
         exit(2);
     }
     
-    return 0;
+return 0;
 }
