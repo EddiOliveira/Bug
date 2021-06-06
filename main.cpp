@@ -90,7 +90,7 @@ int main()
 
         //while(!binFileIn.eof()) estava lendo o último dado 2x
         // while(binFileIn.peek() != EOF)
-        while(k < 3)
+        while(k <= 5)
         {   
             n = rand()%5;
             artista_Read(art, binFileIn, n, tam);
