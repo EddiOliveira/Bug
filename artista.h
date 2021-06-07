@@ -31,8 +31,6 @@ void artista_Read(Artista &art,ifstream &file, int n, int tam);
 
 int artista_Size();
 
-void registra_ArtistaV(vector<Artista> &regArt ,Artista &art);
-
 void imprime_ArtistaV(vector<Artista> regArt);
 
 void imprime_Artista(Artista &art);

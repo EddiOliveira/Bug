@@ -60,11 +60,6 @@ int artista_Size()
           + sizeof(int);   
 }
 
-void registra_ArtistaV(vector<Artista> &regArt ,Artista &art)
-{ 
-    regArt.push_back(art);
-}
-
 void imprime_ArtistaV(vector<Artista> regArt)
 {
     for(int i=0; i<regArt.size(); i++)

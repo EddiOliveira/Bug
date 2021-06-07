@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
         while(getline(fileIn, line))
         {
             stringstream sstr(line);
-            
+
 
             getline(sstr, tmp, ',');
             strcpy(art1.id, tmp.c_str());
