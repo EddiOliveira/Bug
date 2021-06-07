@@ -98,7 +98,7 @@ int main()
         {   
             n = rand()%5;
             artista_Read(art, binFileIn, n, tam);
-            registra_ArtistaV(artV, art);
+            artV.push_back(art);
             k++;
         }
         binFileIn.close();
