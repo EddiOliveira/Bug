@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 
         cout << "\n\nLeitura de art antes do bin: " << endl << endl;
 
-        // while(!fileIn.eof())
+
         while(getline(fileIn, line))
         {
             stringstream sstr(line);
@@ -62,7 +62,6 @@ int main(int argc, char* argv[])
             while(!verificaCaractere(tmp))
             {
                 aux += tmp + ',';
-                // getline(fileIn, tmp, ','); 
                 getline(sstr, tmp, ',');  
             }
             aux += tmp;
@@ -116,7 +115,6 @@ int main(int argc, char* argv[])
         {   
             n = rand()%5;
             artista_Read(artV[k], binFileIn, n, tam);
-            //registra_ArtistaV(artV, art);
             k++;
         }
         binFileIn.close();
