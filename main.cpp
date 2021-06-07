@@ -83,14 +83,18 @@ int main()
         Artista art;
         int n; 
         int tam = artista_Size();
-        int k = 0;
+        int k = 1;
+        int j;
 
         cout << "\n\ntamanho de strucu Artista: " << tam << endl << endl;
         cout << "Numero aleatorio: " << n << endl << endl; 
 
+        cout << "Digite quantos dados vc quer armazenar: ";
+        cin >> j;
+
         //while(!binFileIn.eof()) estava lendo o último dado 2x
         // while(binFileIn.peek() != EOF)
-        while(k <= 5)
+        while(k <= j)
         {   
             n = rand()%5;
             artista_Read(art, binFileIn, n, tam);
@@ -98,7 +102,7 @@ int main()
             k++;
         }
         binFileIn.close();
-        cout << "Registro realizado com sucesso!" << endl;
+        cout << "\nRegistro realizado com sucesso!" << endl;
         cout << "\nLeitura de art aleatoria depois do bin usando vetor: " << endl << endl;
         imprime_ArtistaV(artV);
     }
