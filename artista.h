@@ -6,6 +6,7 @@
 #include <cstring>
 #include <vector>
 #include <ctime>
+
 using namespace std;
 
 #define MAX_ID 50
@@ -34,7 +35,5 @@ int artista_Size();
 void imprime_ArtistaV(vector<Artista> regArt);
 
 void imprime_Artista(Artista &art);
-
-bool verificaCaractere(string word);
 
 #endif // __ARTISTA_H__
