@@ -9,6 +9,7 @@
 
 using namespace std;
 
+void printConsoleOrSaveFile(char &res);
 bool verificaCaractere(string word);
 void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art);
 void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam);
@@ -79,36 +80,29 @@ int main(int argc, char* argv[]){
     cout << "Ou pressione a tecla 'e' para gerar um arquivo com os resultados." << endl << endl;
     cin >> res;
     cin.ignore();
-    
-    while(res != 'c' && res != 'a' && res != 'e'){
-        cout << "\nErro: voce digitou uma tecla errada" << endl;
-        cout << "Pressione a tecla c para exibir os resultados no console." << endl;
-        cout << "Ou pressione a tecla a para gerar um arquivo com os resultados." << endl;
-        cout << "Ou pressione a tecla e para gerar um arquivo com os resultados." << endl;
-        cin >> res;
-        cin.ignore();
-    }
 
-    if(res == 'c'){
+
+    if(res != 'c' && res != 'a' && res != 'e'){
+        printConsoleOrSaveFile(res);
+    }
+    else if(res == 'c'){
         qtdLinhas = 10;
     }
     else if(res == 'a'){
         qtdLinhas = 100;
     }
-    else if(res == 'e'){
+    else{
         cout << "\nVoce escolheu sair do programa!" << endl;
         exit(1);
     }
-    else{
-
-    }
+  
    
 
     //pega dados de artists.csv e salva em objeto art da struct Artista
     //depois salva em binário em artists.bin 
 
     if(csvArtIn.is_open() && binArtOut.is_open()){
-        //getline(csvArtIn,artistaCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
+        getline(csvArtIn,artistaCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
         leArtistaCsv(csvArtIn,binArtOut,art);
         binArtOut.close();
         csvArtIn.close();
@@ -122,7 +116,7 @@ int main(int argc, char* argv[]){
     //depois salva em binário em tracks.bin
 
     if(csvTrackIn.is_open() && binTrackOut.is_open()){
-        //getline(csvTrackIn,trackCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
+        getline(csvTrackIn,trackCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
         leTrackCsv(csvTrackIn,binTrackOut,track);
         csvTrackIn.close();
         binTrackOut.close();
@@ -237,6 +231,17 @@ int main(int argc, char* argv[]){
 // ***************************** FIM DA MAIN ****************************************
 
 
+
+void printConsoleOrSaveFile(char &res){
+    while(res != 'c' && res != 'a' && res != 'e'){
+        cout << "\nErro: voce digitou uma tecla errada" << endl;
+        cout << "Pressione a tecla 'c' para exibir os resultados no console." << endl;
+        cout << "Ou pressione a tecla 'a' para gerar um arquivo com os resultados." << endl;
+        cout << "Ou pressione a tecla 'e' para sair do programa." << endl;
+        cin >> res;
+        cin.ignore();
+    }
+}
 
 
 void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
