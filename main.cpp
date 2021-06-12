@@ -245,7 +245,7 @@ void printConsoleOrSaveFile(char &res){
 
 
 void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
-    // cout << "Lendo do arquivo Artista.csv" << endl;
+    cout << "Lendo do arquivo artists.csv" << endl;
     string line;
     string tmp;
     string aux = "";
@@ -253,7 +253,7 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
     //csvArtIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
     while(getline(csvArtIn, line)){
-            linhasArtistaCsv++;
+            //linhasArtistaCsv++;
             stringstream sstr(line);
 
             getline(sstr, tmp, ',');
@@ -278,14 +278,13 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
 
             getline(sstr, tmp, ',');
   
-
             if(tmp[0] == '"'){
                 while (!verificaCaractere(tmp)){
                     aux += tmp + " ";
                     getline(sstr, tmp, ','); 
                 }
                 aux += tmp;
-                strcpy(art.name, tmp.c_str());
+                strcpy(art.name, aux.c_str());
                 aux = "";
             }
             else{  
@@ -316,6 +315,7 @@ void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artist
 
 
 void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track){
+    cout << "Lendo do arquivo tracks.csv" << endl;
     string line;
     string tmp;
     string aux = "";
@@ -323,7 +323,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track){
     //csvTrackIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
     while(getline(csvTrackIn, line)){
-        linhasTrackCsv++;
+        //linhasTrackCsv++;
         stringstream sstr(line);
 
         getline(sstr,tmp,',');
