@@ -9,11 +9,11 @@
 
 using namespace std;
 
-#define MAX_ID 50
-#define MAX_FOLLOWERS 10
-#define MAX_GENRES 512
-#define MAX_NAME 512
-#define MAX_POPULARITY 10
+#define MAX_ID 500
+#define MAX_FOLLOWERS 100
+#define MAX_GENRES 1024
+#define MAX_NAME 1024
+#define MAX_POPULARITY 100
 
 
 struct Artista

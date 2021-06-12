@@ -11,14 +11,14 @@ using namespace std;
 
 void printConsoleOrSaveFile(char &res);
 bool verificaCaractere(string word);
-void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art);
-void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam);
-void leTrackCsv(ifstream &trackCsv, ofstream &trackBin, Track &track);
-void geraVectorTrack(ifstream &csvTrackIn, int repeticoes, vector<Track> &tracks, int tam);
+void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv);
+void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam, int &linhasArtistaCsv);
+void leTrackCsv(ifstream &trackCsv, ofstream &trackBin, Track &track, int &linhasTrackCsv);
+void geraVectorTrack(ifstream &csvTrackIn, int repeticoes, vector<Track> &tracks, int tam, int &linhasTrackCsv);
 void geraArquivoFinal(ofstream &arquivoFinal ,string artistaCsvHeader, vector<Artista> artistas, string trackCsvHeader, vector<Track> tracks);
 void imprime_Terminal(vector<Artista> artistas, vector<Track> tracks);
 
-int linhasArtistaCsv = 0, linhasTrackCsv = 0;
+
 
 
 
@@ -45,6 +45,7 @@ int main(int argc, char* argv[]){
 
 
     int qtdLinhas;
+    int linhasArtistaCsv = 0, linhasTrackCsv = 0;
 
     
     ifstream csvArtIn, csvTrackIn;
@@ -103,7 +104,7 @@ int main(int argc, char* argv[]){
 
     if(csvArtIn.is_open() && binArtOut.is_open()){
         getline(csvArtIn,artistaCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
-        leArtistaCsv(csvArtIn,binArtOut,art);
+        leArtistaCsv(csvArtIn,binArtOut,art, linhasArtistaCsv);
         binArtOut.close();
         csvArtIn.close();
     }
@@ -117,7 +118,7 @@ int main(int argc, char* argv[]){
 
     if(csvTrackIn.is_open() && binTrackOut.is_open()){
         getline(csvTrackIn,trackCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
-        leTrackCsv(csvTrackIn,binTrackOut,track);
+        leTrackCsv(csvTrackIn,binTrackOut,track, linhasTrackCsv);
         csvTrackIn.close();
         binTrackOut.close();
     }
@@ -141,8 +142,8 @@ int main(int argc, char* argv[]){
     //ou armazenar 50 de cada
 
     if(binArtIn.is_open() && binTrackIn.is_open()){
-        geraVectorArtista(binArtIn,qtdLinhas/2,artV,artista_Size());
-        geraVectorTrack(binTrackIn,qtdLinhas/2,tracks,track_Size());
+        geraVectorArtista(binArtIn,qtdLinhas,artV,artista_Size(), linhasArtistaCsv);
+        geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
         binTrackIn.close();
         binArtIn.close();            
     }
@@ -244,7 +245,7 @@ void printConsoleOrSaveFile(char &res){
 }
 
 
-void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
+void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv){
     cout << "Lendo do arquivo artists.csv" << endl;
     string line;
     string tmp;
@@ -253,7 +254,7 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
     //csvArtIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
     while(getline(csvArtIn, line)){
-            //linhasArtistaCsv++;
+            linhasArtistaCsv++;
             stringstream sstr(line);
 
             getline(sstr, tmp, ',');
@@ -303,18 +304,18 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art){
 
 
 
-void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam){
+void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam, int &linhasArtistaCsv){
     int n;
     artistas.resize(repeticoes); 
     cout << "\n\nPreenchendo vetor de artistas" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
-            n = rand()%repeticoes;
+            n = rand()%linhasArtistaCsv;
             artista_Read(artistas[i], binFile, n, tam);
     }
 }
 
 
-void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track){
+void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &linhasTrackCsv){
     cout << "Lendo do arquivo tracks.csv" << endl;
     string line;
     string tmp;
@@ -323,7 +324,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track){
     //csvTrackIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
     while(getline(csvTrackIn, line)){
-        //linhasTrackCsv++;
+        linhasTrackCsv++;
         stringstream sstr(line);
 
         getline(sstr,tmp,',');
@@ -411,12 +412,12 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track){
     }
 }
 
-void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, int tam){
+void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, int tam, int &linhasTrackCsv){
     int n;
     tracks.resize(repeticoes); 
     cout << "\n\nPreenchendo vetor de tracks" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
-            n = rand()%repeticoes;
+            n = rand()%linhasTrackCsv;
             track_Read(tracks[i], binFile, n, tam);
     }
 }
