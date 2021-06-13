@@ -10,6 +10,7 @@
 using namespace std;
 
 void printConsoleOrSaveFile(char &res);
+void replace(string &aux);
 bool verificaCaractere(string word);
 void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv);
 void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam, int &linhasArtistaCsv);
@@ -59,7 +60,7 @@ int main(int argc, char* argv[]){
     ifstream binArtIn, binTrackIn;
 
     ofstream arquivo;
-    // arquivo.open(fileArtAndTracks);
+    arquivo.open(fileArtAndTracks);
 
 
 
@@ -102,13 +103,15 @@ int main(int argc, char* argv[]){
     //pega dados de artists.csv e salva em objeto art da struct Artista
     //depois salva em binário em artists.bin 
 
-    if(csvArtIn.is_open() && binArtOut.is_open()){
+    if(csvArtIn.is_open() && binArtOut.is_open())
+    {
         getline(csvArtIn,artistaCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
         leArtistaCsv(csvArtIn,binArtOut,art, linhasArtistaCsv);
         binArtOut.close();
         csvArtIn.close();
     }
-    else{
+    else
+    {
         cout << "Erro ao abrir Artistas.csv" << endl;
         exit(1);
     } 
@@ -116,7 +119,8 @@ int main(int argc, char* argv[]){
     //pega dados de track.csv e salva em objeto track da struct Track
     //depois salva em binário em tracks.bin
 
-    if(csvTrackIn.is_open() && binTrackOut.is_open()){
+    if(csvTrackIn.is_open() && binTrackOut.is_open())
+    {
         getline(csvTrackIn,trackCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
         leTrackCsv(csvTrackIn,binTrackOut,track, linhasTrackCsv);
         csvTrackIn.close();
@@ -233,14 +237,27 @@ int main(int argc, char* argv[]){
 
 
 
-void printConsoleOrSaveFile(char &res){
-    while(res != 'c' && res != 'a' && res != 'e'){
+void printConsoleOrSaveFile(char &res)
+{
+    while(res != 'c' && res != 'a' && res != 'e')
+    {
         cout << "\nErro: voce digitou uma tecla errada" << endl;
         cout << "Pressione a tecla 'c' para exibir os resultados no console." << endl;
         cout << "Ou pressione a tecla 'a' para gerar um arquivo com os resultados." << endl;
         cout << "Ou pressione a tecla 'e' para sair do programa." << endl;
         cin >> res;
         cin.ignore();
+    }
+}
+
+void replace(string &aux)
+{
+    int i = aux.size() - 2;
+
+    while( aux[i] != ' ' )
+    {
+        aux[i] = ' ';
+        i--;
     }
 }
 
@@ -276,25 +293,32 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
             aux = "";
 
 
-
-            getline(sstr, tmp, ',');
+            // o código abaixo o getline pega popularity
+            // replace é uma função que substitui popularity por " "
+            while( getline(sstr, tmp, ',') )
+            { 
+                aux += tmp + " ";
+            }
+            replace(aux);
+            strcpy(art.name, aux.c_str());
+            aux = "";
   
-            if(tmp[0] == '"'){
-                while (!verificaCaractere(tmp)){
-                    aux += tmp + " ";
-                    getline(sstr, tmp, ','); 
-                }
-                aux += tmp;
-                strcpy(art.name, aux.c_str());
-                aux = "";
-            }
-            else{  
-                strcpy(art.name, tmp.c_str());
-            }
+            // if(tmp[0] == '"'){
+            //     while (!verificaCaractere(tmp)){
+            //         aux += tmp + " ";
+            //         getline(sstr, tmp, ','); 
+            //     }
+            //     aux += tmp;
+            //     strcpy(art.name, aux.c_str());
+            //     aux = "";
+            // }
+            // else{  
+            //     strcpy(art.name, tmp.c_str());
+            // }
 
 
 
-            getline(sstr, tmp, ',');
+            getline(sstr, tmp, '\n');
             art.popularity = atoi(tmp.c_str());
 
 
@@ -423,7 +447,7 @@ void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, i
 }
 
 bool verificaCaractere(string word){
-    return word[word.size()-1] == '"' || word[word.size()-1] == ']';
+    return word[word.size()-1] == ']' || word[word.size()-1] == '"';
 }
 
 void imprime_Terminal(vector<Artista> artistas, vector<Track> tracks){
