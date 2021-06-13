@@ -87,7 +87,8 @@ int main(int argc, char* argv[]){
     if(res != 'c' && res != 'a' && res != 'e'){
         printConsoleOrSaveFile(res);
     }
-    else if(res == 'c'){
+
+    if(res == 'c'){
         qtdLinhas = 10;
     }
     else if(res == 'a'){
