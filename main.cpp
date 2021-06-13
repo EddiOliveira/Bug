@@ -254,6 +254,11 @@ void replace(string &aux)
 {
     int i = aux.size() - 2;
 
+    while( aux[i] == ' ' )
+    {
+        i--;
+    }
+
     while( aux[i] != ' ' )
     {
         aux[i] = ' ';
