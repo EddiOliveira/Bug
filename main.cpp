@@ -123,7 +123,7 @@ int main(int argc, char* argv[]){
     if(csvTrackIn.is_open() && binTrackOut.is_open())
     {
         getline(csvTrackIn,trackCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
-        leTrackCsv(csvTrackIn,binTrackOut,track, linhasTrackCsv);
+       // leTrackCsv(csvTrackIn,binTrackOut,track, linhasTrackCsv);
         csvTrackIn.close();
         binTrackOut.close();
     }
@@ -148,7 +148,7 @@ int main(int argc, char* argv[]){
 
     if(binArtIn.is_open() && binTrackIn.is_open()){
         geraVectorArtista(binArtIn,qtdLinhas,artV,artista_Size(), linhasArtistaCsv);
-        geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
+        //geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
         binTrackIn.close();
         binArtIn.close();            
     }
@@ -253,7 +253,7 @@ void printConsoleOrSaveFile(char &res)
 
 void replace(string &aux)
 {
-    int i = aux.size() - 2;
+    int i = aux.size() - 1;
 
     while( aux[i] == ' ' )
     {
@@ -287,27 +287,59 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
             art.followers = atof(tmp.c_str());
 
 
-
-            getline(sstr, tmp, ',');     
-
-            while(!verificaCaractere(tmp)){
-                aux += tmp + " ";
-                getline(sstr, tmp, ',');  
+            if(sstr.peek() == '\"')
+            {
+                sstr.get();
+                getline(sstr, tmp, '\"');
+                strcpy(art.genres, tmp.c_str());
             }
-            aux += tmp;
-            strcpy(art.genres, aux.c_str());
-            aux = "";
+            else if(sstr.peek() == '[')
+            {
+                sstr.get();
+                getline(sstr, tmp, ']');
+                strcpy(art.genres, tmp.c_str());
+            }
+
+
+            // if(sstr.peek() == ',')
+            // {
+            //     sstr.get();
+            // }
+
+            if(sstr.peek() == '\"')
+            {
+                sstr.get();
+                getline(sstr, tmp, '\"');
+                strcpy(art.name, tmp.c_str());
+            }
+            else
+            {
+                sstr.get();
+                getline(sstr, tmp, ',');
+                strcpy(art.name, tmp.c_str());
+            }
+
+
+            // getline(sstr, tmp, ',');     
+
+            // while(!verificaCaractere(tmp)){
+            //     aux += tmp + " ";
+            //     getline(sstr, tmp, ',');  
+            // }
+            // aux += tmp;
+            // strcpy(art.genres, aux.c_str());
+            // aux = "";
 
 
             // o código abaixo o getline pega popularity
             // replace é uma função que substitui popularity por " "
-            while( getline(sstr, tmp, ',') )
-            { 
-                aux += tmp + " ";
-            }
-            replace(aux);
-            strcpy(art.name, aux.c_str());
-            aux = "";
+            // while( getline(sstr, tmp, ',') )
+            // { 
+            //     aux += tmp + " ";
+            // }
+            // replace(aux);
+            // strcpy(art.name, aux.c_str());
+            // aux = "";
   
             // if(tmp[0] == '"'){
             //     while (!verificaCaractere(tmp)){
@@ -340,7 +372,7 @@ void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artist
     cout << "\n\nPreenchendo vetor de artistas" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
             n = rand()%linhasArtistaCsv;
-            artista_Read(artistas[i], binFile, n, tam);
+            artista_Read(artistas[i], binFile, i, tam);
     }
 }
 
