@@ -69,31 +69,27 @@ int main(int argc, char* argv[]){
     
     Track track;
     vector <Track> tracks;
-    int sizeTrackBin = 0; // precisa?
 
     
 
     
 
-    //Parte comentada abaixo precisa ser implementada
-    char res; //descomentar quando for implementar parte de gerar arquivo/imprimir no terminal
-    cout << "Pressione a tecla 'c' para exibir os resultados no console." << endl << endl;
+    
+    char res; 
+    cout << "\n\nPressione a tecla 'c' para exibir os resultados no console." << endl << endl;
     cout << "Ou pressione a tecla 'a' para gerar um arquivo com os resultados." << endl << endl;
-    cout << "Ou pressione a tecla 'e' para gerar um arquivo com os resultados." << endl << endl;
+    cout << "Ou pressione a tecla 'e' para sair do programa." << endl << endl;
     cin >> res;
     cin.ignore();
 
 
-    if(res != 'c' && res != 'a' && res != 'e'){
+    if(res != 'c' && res != 'a' && res != 'e')
         printConsoleOrSaveFile(res);
-    }
 
-    if(res == 'c'){
+    if(res == 'c')
         qtdLinhas = 10;
-    }
-    else if(res == 'a'){
+    else if(res == 'a')
         qtdLinhas = 100;
-    }
     else{
         cout << "\nVoce escolheu sair do programa!" << endl;
         exit(1);
@@ -103,7 +99,7 @@ int main(int argc, char* argv[]){
 
     //pega dados de artists.csv e salva em objeto art da struct Artista
     //depois salva em binário em artists.bin 
-
+// 1 sem problema
     if(csvArtIn.is_open() && binArtOut.is_open())
     {
         getline(csvArtIn,artistaCsvHeader); // tirei o '\n' no 3º argumento, pois ele já pega a 1º linha toda
@@ -116,6 +112,7 @@ int main(int argc, char* argv[]){
         cout << "Erro ao abrir Artistas.csv" << endl;
         exit(1);
     } 
+// 1 sem problema
 
     // pega dados de track.csv e salva em objeto track da struct Track
     // depois salva em binário em tracks.bin
@@ -137,20 +134,19 @@ int main(int argc, char* argv[]){
     //lê dados aleatórios em artists.bin e tracks.bin e coloca em vetores 
     //para leitura ou para armazenar em novo arquivo artistsAndTracks.csv
     
-
+// 2 sem problema - geraVectorTrack comentado
     binArtIn.open(artistaBin, ios::in | ios::binary);
     binTrackIn.open(trackBin, ios::in  | ios::binary);
 
-    
-
     if(binArtIn.is_open() && binTrackIn.is_open()){
         geraVectorArtista(binArtIn,qtdLinhas,artV,artista_Size(), linhasArtistaCsv);
-        geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
+        //geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
         binTrackIn.close();
         binArtIn.close();            
     }
-
+// 2 sem problema - geraVectorTrack comentado
     
+// 3 sem problema - não imprime tracks 
     if(res == 'c'){
         imprime_Terminal(artV, tracks);
     }
@@ -161,6 +157,7 @@ int main(int argc, char* argv[]){
          }
          arquivo.close();
     }
+// 3 sem problema - não imprime tracks 
 
     return 0;
 }
@@ -202,6 +199,17 @@ void replace(string &aux)
     }
 }
 
+bool verificaCaractere(string word){
+    return word[word.size()-1] == ']' || word[word.size()-1] == '"';
+}
+
+void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks){
+    cout << "\nImprimindo dados dos artistas:" << endl;
+    imprime_ArtistaV(artistas);
+    // cout << "\nImprimindo dados de tracks:" << endl;
+    // imprime_TrackV(tracks);
+}
+
 
 void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv){
     cout << "Lendo do arquivo artists.csv" << endl;
@@ -211,9 +219,13 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
 
     //csvArtIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
-    while(getline(csvArtIn, line)){
+    while(getline(csvArtIn, line))
+    {
             linhasArtistaCsv++;
             stringstream sstr(line);
+            string name = "";
+
+
 
             getline(sstr, tmp, ',');
             strcpy(art.id, tmp.c_str());
@@ -257,8 +269,9 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
             // aux = "";
 
 
-            string name = "";
+            
             char c = sstr.peek();
+
             if(c == '\"')
             {
                 c = sstr.get();
@@ -334,7 +347,7 @@ void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artist
     cout << "\n\nPreenchendo vetor de artistas" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
             n = rand()%linhasArtistaCsv;
-            artista_Read(artistas[i], binFile, i, tam);
+            artista_Read(artistas[i], binFile, n, tam);
     }
 }
 
@@ -347,14 +360,18 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
 
     //csvTrackIn.ignore(1000, '\n'); //ignora linha até encontrar 1000 caracteres ou quebra de linha
 
-    while(getline(csvTrackIn, line)){
+    while(getline(csvTrackIn, line))
+    {
         linhasTrackCsv++;
         stringstream sstr(line);
+        char c;
+        string name = "";
+
+
 
         getline(sstr,tmp,',');
         strcpy(track.id, tmp.c_str());
 
-        //297193
 
         // getline(sstr,tmp,',');
         // strcpy(track.name, tmp.c_str());
@@ -369,10 +386,10 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
         // strcpy(track.name, aux.c_str());
         // aux = "";
 
-        char c = sstr.peek();
 
-
-        string name = "";
+        
+        c = sstr.peek();
+        
         if(c == '\"')
         {
             c = sstr.get();
@@ -398,13 +415,15 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                 name += c;
             }
         }
-
         strcpy(track.name, name.c_str());
+
+        
 
         
 
         getline(sstr,tmp,',');
         track.popularity = atoi(tmp.c_str());
+
 
         getline(sstr,tmp,',');
         track.duration = atoi(tmp.c_str());
@@ -454,7 +473,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
             }  
         }
         strcpy(track.artist, tmp.c_str());
-
+        tmp = "";
         
 
 
@@ -469,6 +488,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
         // strcpy(track.artist, aux.c_str());
         // aux = "";
 
+// problema início
         tmp = "";
         c = sstr.peek();
         if(c == '\"')
@@ -509,52 +529,52 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
             }  
         }
         strcpy(track.idArtist, tmp.c_str());
+        tmp = "";
+// problema fim
 
-        //cout << "\nIDARTIST.NAME: " << track.idArtist << endl;
 
 
+        // getline(sstr,tmp,',');
+        // strcpy(track.releaseDate, tmp.c_str());
 
-        getline(sstr,tmp,',');
-        strcpy(track.releaseDate, tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.danceability = atof(tmp.c_str());
 
-        getline(sstr,tmp,',');
-        track.danceability = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.energy = atof(tmp.c_str());
+    
+        // getline(sstr,tmp,',');
+        // track.key = atoi(tmp.c_str());
+    
+        // getline(sstr,tmp,',');
+        // track.loudness = atof(tmp.c_str());
+    
+        // getline(sstr,tmp,',');
+        // track.mode = atoi(tmp.c_str());
 
-        getline(sstr,tmp,',');
-        track.energy = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.speechiness = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.key = atoi(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.acousticness = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.loudness = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.instrumentalness = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.mode = atoi(tmp.c_str());
-
-        getline(sstr,tmp,',');
-        track.speechiness = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.liveness = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.acousticness = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.valence = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.instrumentalness = atof(tmp.c_str());
+        // getline(sstr,tmp,',');
+        // track.tempo = atof(tmp.c_str());
     
-        getline(sstr,tmp,',');
-        track.liveness = atof(tmp.c_str());
-    
-        getline(sstr,tmp,',');
-        track.valence = atof(tmp.c_str());
-    
-        getline(sstr,tmp,',');
-        track.tempo = atof(tmp.c_str());
-    
-        getline(sstr,tmp,'\n');
-        track.timeSignature = atoi(tmp.c_str());
+        // getline(sstr,tmp,'\n');
+        // track.timeSignature = atoi(tmp.c_str());
 
         
-        track_Save(track,binTrackOut);
+        // track_Save(track,binTrackOut);
     }
 }
 
@@ -569,16 +589,6 @@ void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, i
     }
 }
 
-bool verificaCaractere(string word){
-    return word[word.size()-1] == ']' || word[word.size()-1] == '"';
-}
-
-void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks){
-    // cout << "\nImprimindo dados dos artistas:" << endl;
-    // imprime_ArtistaV(artistas);
-    cout << "\nImprimindo dados de tracks:" << endl;
-    imprime_TrackV(tracks);
-}
 
 void geraArquivoFinal(ofstream &arquivoFinal, string artistaCsvHeader, vector<Artista> artistas, string trackCsvHeader, vector<Track> tracks){
     arquivoFinal << artistaCsvHeader;
