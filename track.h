@@ -7,10 +7,10 @@
 #include <vector>
 #include <ctime>
 
-#define MAX_ID 500
-#define MAX_NAME 1024
-#define MAX_ARTISTS 1024
-#define MAX_ID_ARTISTS 500
+#define MAX_ID 50
+#define MAX_NAME 512
+#define MAX_ARTISTS 512
+#define MAX_ID_ARTISTS 100
 #define MAX_RELEASE_DATE 20
 
 using namespace std;

@@ -368,7 +368,6 @@ void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artist
     cout << "\n\nPreenchendo vetor de artistas" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
             n = rand()%linhasArtistaCsv;
-            cout << "\n\nRANDOM: " << tam << endl;
             artista_Read(artistas[i], binFile, n, tam);
     }
 }
