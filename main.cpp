@@ -140,7 +140,7 @@ int main(int argc, char* argv[]){
 
     if(binArtIn.is_open() && binTrackIn.is_open()){
         geraVectorArtista(binArtIn,qtdLinhas,artV,artista_Size(), linhasArtistaCsv);
-        //geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
+        geraVectorTrack(binTrackIn,qtdLinhas,tracks,track_Size(), linhasTrackCsv);
         binTrackIn.close();
         binArtIn.close();            
     }
@@ -206,8 +206,8 @@ bool verificaCaractere(string word){
 void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks){
     cout << "\nImprimindo dados dos artistas:" << endl;
     imprime_ArtistaV(artistas);
-    // cout << "\nImprimindo dados de tracks:" << endl;
-    // imprime_TrackV(tracks);
+    cout << "\nImprimindo dados de tracks:" << endl;
+    imprime_TrackV(tracks);
 }
 
 
@@ -373,20 +373,6 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
         strcpy(track.id, tmp.c_str());
 
 
-        // getline(sstr,tmp,',');
-        // strcpy(track.name, tmp.c_str());
-
-        // getline(sstr, tmp, ',');     
-
-        // while(!verificaCaractere(tmp)){
-        //     aux += tmp + " ";
-        //     getline(sstr, tmp, ',');  
-        // }
-        // aux += tmp;
-        // strcpy(track.name, aux.c_str());
-        // aux = "";
-
-
         
         c = sstr.peek();
         
@@ -438,7 +424,6 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
         {
             c = sstr.get();
 
-            
             if(sstr.peek() == '[')
             {
                 c = sstr.get();
@@ -452,7 +437,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     tmp += c;
                 }
                 sstr.get();
-                sstr.get();
+                //sstr.get();
             }  
         }
         else
@@ -469,27 +454,14 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     }
                     tmp += c;
                 }
-                sstr.get();
+                //sstr.get();
             }  
         }
         strcpy(track.artist, tmp.c_str());
         tmp = "";
         
 
-
-
-        // getline(sstr,tmp,',');
-
-        // while(!verificaCaractere(tmp)){
-        //     aux += tmp + " ";
-        //     getline(sstr,tmp,',');
-        // }
-        // aux += tmp;
-        // strcpy(track.artist, aux.c_str());
-        // aux = "";
-
 // problema início
-        tmp = "";
         c = sstr.peek();
         if(c == '\"')
         {
@@ -508,7 +480,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     tmp += c;
                 }
                 sstr.get();
-                sstr.get();
+                //sstr.get();
             }  
         }
         else
@@ -525,7 +497,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     }
                     tmp += c;
                 }
-                sstr.get();
+                //sstr.get();
             }  
         }
         strcpy(track.idArtist, tmp.c_str());
@@ -534,47 +506,47 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
 
 
 
-        // getline(sstr,tmp,',');
-        // strcpy(track.releaseDate, tmp.c_str());
+        getline(sstr,tmp,',');
+        strcpy(track.releaseDate, tmp.c_str());
 
-        // getline(sstr,tmp,',');
-        // track.danceability = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.danceability = atof(tmp.c_str());
 
-        // getline(sstr,tmp,',');
-        // track.energy = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.energy = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.key = atoi(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.key = atoi(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.loudness = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.loudness = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.mode = atoi(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.mode = atoi(tmp.c_str());
 
-        // getline(sstr,tmp,',');
-        // track.speechiness = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.speechiness = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.acousticness = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.acousticness = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.instrumentalness = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.instrumentalness = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.liveness = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.liveness = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.valence = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.valence = atof(tmp.c_str());
     
-        // getline(sstr,tmp,',');
-        // track.tempo = atof(tmp.c_str());
+        getline(sstr,tmp,',');
+        track.tempo = atof(tmp.c_str());
     
-        // getline(sstr,tmp,'\n');
-        // track.timeSignature = atoi(tmp.c_str());
+        getline(sstr,tmp,'\n');
+        track.timeSignature = atoi(tmp.c_str());
 
         
-        // track_Save(track,binTrackOut);
+        track_Save(track,binTrackOut);
     }
 }
 
