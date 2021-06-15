@@ -10,8 +10,8 @@
 #define MAX_ID 50
 #define MAX_NAME 512
 #define MAX_ARTISTS 512
-#define MAX_ID_ARTISTS 100
-#define MAX_RELEASE_DATE 20
+#define MAX_ID_ARTISTS 256
+#define MAX_RELEASE_DATE 128
 
 using namespace std;
 

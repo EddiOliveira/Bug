@@ -33,8 +33,7 @@ void track_Save(Track &track, ofstream &file){
 void track_Read(Track &track,ifstream &file, int n, int tam){
 
 
-    // n*tam onde n é inteiro de 0 a 4 e tam é o tamanho em bytes da struct Track  
-    // pula de n*1082 bytes 
+    
     file.seekg(n * tam, ios::beg);
 
     if(!file.eof()){

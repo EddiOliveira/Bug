@@ -18,8 +18,7 @@ void artista_Save(Artista &art, ofstream &file)
 
 void artista_Read(Artista &art,ifstream &file, int n, int tam){
 
-    // n*tam onde n é inteiro de 0 a 4 e tam é o tamanho em bytes da struct Artista  
-    // pula de n*1082 bytes  
+    
     file.seekg(n*tam, ios::beg);
 
     if(!file.eof()){
