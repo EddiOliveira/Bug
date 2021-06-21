@@ -124,7 +124,8 @@ int main(int argc, char* argv[]){
         csvTrackIn.close();
         binTrackOut.close();
     }
-    else{
+    else
+    {
         cout << "Erro ao abrir track.csv" << endl;
         exit(1);
     }
@@ -144,6 +145,7 @@ int main(int argc, char* argv[]){
         binTrackIn.close();
         binArtIn.close();            
     }
+    //geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, int tam, int &linhasTrackCsv)
 // 2 sem problema - geraVectorTrack comentado
     
 // 3 sem problema - não imprime tracks 
@@ -199,11 +201,13 @@ void replace(string &aux)
     }
 }
 
-bool verificaCaractere(string word){
+bool verificaCaractere(string word)
+{
     return word[word.size()-1] == ']' || word[word.size()-1] == '"';
 }
 
-void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks){
+void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks)
+{
     cout << "\nImprimindo dados dos artistas:" << endl;
     imprime_ArtistaV(artistas);
     cout << "\nImprimindo dados de tracks:" << endl;
@@ -211,7 +215,8 @@ void imprime_Terminal(vector<Artista> &artistas, vector<Track> &tracks){
 }
 
 
-void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv){
+void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &linhasArtistaCsv)
+{
     cout << "Lendo do arquivo artists.csv" << endl;
     string line;
     string tmp;
@@ -233,20 +238,6 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
             getline(sstr, tmp, ',');
             art.followers = atof(tmp.c_str());
 
-            
-
-            // if(sstr.peek() == '\"')
-            // {
-            //     sstr.get();
-            //     getline(sstr, tmp, '\"');
-            //     strcpy(art.genres, tmp.c_str());
-            // }
-            // else if(sstr.peek() == '[')
-            // {
-            //     sstr.get();
-            //     getline(sstr, tmp, ']');
-            //     strcpy(art.genres, tmp.c_str());
-            // }
 
             getline(sstr, tmp, ',');     
 
@@ -257,16 +248,6 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
             aux += tmp;
             strcpy(art.genres, aux.c_str());
             aux = "";
-
-            // o código abaixo o getline pega popularity
-            // replace é uma função que substitui popularity por " "
-            // while( getline(sstr, tmp, ',') )
-            // { 
-            //     aux += tmp + " ";
-            // }
-            // replace(aux);
-            // strcpy(art.name, aux.c_str());
-            // aux = "";
 
 
             
@@ -298,37 +279,7 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
                 }
             }
             strcpy(art.name, name.c_str());
-
-
-
-            // if(sstr.peek() == '\"')
-            // {
-            //     sstr.get();
-            //     getline(sstr, tmp, '\"');
-            //     strcpy(art.name, tmp.c_str());
-            // }
-            // else
-            // {
-            //     sstr.get();
-            //     getline(sstr, tmp, ',');
-            //     strcpy(art.name, tmp.c_str());
-            // }
-
-  
-            // if(tmp[0] == '"'){
-            //     while (!verificaCaractere(tmp)){
-            //         aux += tmp + " ";
-            //         getline(sstr, tmp, ','); 
-            //     }
-            //     aux += tmp;
-            //     strcpy(art.name, aux.c_str());
-            //     aux = "";
-            // }
-            // else{  
-            //     strcpy(art.name, tmp.c_str());
-            // }
-
-
+            
 
             getline(sstr, tmp, '\n');
             art.popularity = atoi(tmp.c_str());
@@ -340,19 +291,22 @@ void leArtistaCsv(ifstream &csvArtIn, ofstream &binArtOut, Artista &art, int &li
 
 
 
-void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam, int &linhasArtistaCsv){
+void geraVectorArtista(ifstream &binFile, int repeticoes,vector<Artista> &artistas, int tam, int &linhasArtistaCsv)
+{
     int n;
     artistas.resize(repeticoes); 
     srand(time(NULL));
     cout << "\n\nPreenchendo vetor de artistas" << endl << endl;
-    for(int i = 0; i < repeticoes; i++){
+    for(int i = 0; i < repeticoes; i++)
+    {
             n = rand()%linhasArtistaCsv;
             artista_Read(artistas[i], binFile, n, tam);
     }
 }
 
 
-void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &linhasTrackCsv){
+void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &linhasTrackCsv)
+{
     cout << "Lendo do arquivo tracks.csv" << endl;
     string line;
     string tmp;
@@ -437,7 +391,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     tmp += c;
                 }
                 sstr.get();
-                //sstr.get();
+                sstr.get();
             }  
         }
         else
@@ -454,7 +408,7 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
                     }
                     tmp += c;
                 }
-                //sstr.get();
+                sstr.get();
             }  
         }
         strcpy(track.artist, tmp.c_str());
@@ -462,46 +416,47 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
         
 
 // problema início
-        c = sstr.peek();
-        if(c == '\"')
-        {
-            c = sstr.get();
+
+        // c = sstr.peek();
+    
+        // if(c == '\"')
+        // {
+        //     c = sstr.get();
             
-            if(sstr.peek() == '[')
-            {
-                c = sstr.get();
+        //     if(sstr.peek() == '[')
+        //     {
+        //         c = sstr.get();
 
-                while (sstr.get(c))
-                {
-                    if(c == ']' && sstr.peek() == '\"')
-                    {
-                        break;
-                    }
-                    tmp += c;
-                }
-                sstr.get();
-                //sstr.get();
-            }  
-        }
-        else
-        {
-            if(sstr.peek() == '[')
-            {
-                c = sstr.get();
+        //         while (sstr.get(c))
+        //         {
+        //             if(c == ']' && sstr.peek() == '\"')
+        //             {
+        //                 break;
+        //             }
+        //             tmp += c;
+        //         }
+        //         sstr.get();
+        //         sstr.get();
+        //     }  
+        // }
+        // else
+        // {
+        //     if(sstr.peek() == '[')
+        //     {
+        //         c = sstr.get();
 
-                while (sstr.get(c))
-                {
-                    if(c == ']' && sstr.peek() == ',')
-                    {
-                        break;
-                    }
-                    tmp += c;
-                }
-                //sstr.get();
-            }  
-        }
-        strcpy(track.idArtist, tmp.c_str());
-        tmp = "";
+        //         while (sstr.get(c))
+        //         {
+        //             if(c == ']' && sstr.peek() == ',')
+        //             {
+        //                 break;
+        //             }
+        //             tmp += c;
+        //         }
+        //         sstr.get();
+        //     }  
+        // }
+        // strcpy(track.idArtist, tmp.c_str());
 // problema fim
 
 
@@ -550,19 +505,21 @@ void leTrackCsv(ifstream &csvTrackIn, ofstream &binTrackOut, Track &track, int &
     }
 }
 
-void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, int tam, int &linhasTrackCsv){
+void geraVectorTrack(ifstream &binFile, int repeticoes, vector<Track> &tracks, int tam, int &linhasTrackCsv)
+{
     int n;
     tracks.resize(repeticoes); 
     srand(time(NULL));
     cout << "\n\nPreenchendo vetor de tracks" << endl << endl;
     for(int i = 0; i < repeticoes; i++){
             n = rand()%linhasTrackCsv;
-            track_Read(tracks[i], binFile, i, tam);
+            track_Read(tracks[i], binFile, 502771, tam);
     }
 }
 
 
-void geraArquivoFinal(ofstream &arquivoFinal, string artistaCsvHeader, vector<Artista> artistas, string trackCsvHeader, vector<Track> tracks){
+void geraArquivoFinal(ofstream &arquivoFinal, string artistaCsvHeader, vector<Artista> artistas, string trackCsvHeader, vector<Track> tracks)
+{
     arquivoFinal << artistaCsvHeader;
     for(int i = 0; i < artistas.size(); i++){
         arquivoFinal << artistas[i].id;

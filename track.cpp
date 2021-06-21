@@ -7,7 +7,8 @@
 using namespace std;
 
 
-void track_Save(Track &track, ofstream &file){
+void track_Save(Track &track, ofstream &file)
+{
     file.write(track.id, sizeof(track.id));
     file.write(track.name, sizeof(track.name));
     file.write((char*)&track.popularity, sizeof(track.popularity));
@@ -30,13 +31,13 @@ void track_Save(Track &track, ofstream &file){
     file.write((char*)&track.timeSignature, sizeof(track.timeSignature));
 }
 
-void track_Read(Track &track,ifstream &file, int n, int tam){
-
-
+void track_Read(Track &track,ifstream &file, int n, int tam)
+{
     
     file.seekg(n * tam, ios::beg);
 
-    if(!file.eof()){
+    if(!file.eof())
+    {
         file.read(track.id, sizeof(track.id));
         file.read(track.name, sizeof(track.name));
         file.read((char*)&track.popularity, sizeof(track.popularity));
@@ -58,12 +59,14 @@ void track_Read(Track &track,ifstream &file, int n, int tam){
         file.read((char*)&track.tempo, sizeof(track.tempo));
         file.read((char*)&track.timeSignature, sizeof(track.timeSignature));
     }
-    else{
+    else
+    {
         file.seekg(0, ios::beg);
     }
 }
 
-int track_Size(){
+int track_Size()
+{
     return  sizeof(char) * MAX_ID  
             + sizeof(char) * MAX_NAME
             + sizeof(int)
@@ -87,7 +90,8 @@ int track_Size(){
 }
 
 void imprime_TrackV(vector<Track> track){
-    for(int i=0; i<track.size(); i++){
+    for(int i=0; i<track.size(); i++)
+    {
         cout << "Id: " << track[i].id << endl;
         cout << "Name: " << track[i].name << endl;
         cout << "Popularity: " << track[i].popularity << endl;
